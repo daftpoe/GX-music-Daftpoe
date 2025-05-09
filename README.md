@@ -24,3 +24,48 @@ A Chrome extension that plays background music, inspired by Opera GX's backgroun
 1. Clone or download this repository:
    ```bash
    git clone https://github.com/daftpoe/GX-music-Daftpoe.git
+
+Alternatively, download the latest release from the Releases page as a .zip file and extract it.
+
+2. Go to chrome://extensions/ in Chrome.
+3. Enable "Developer mode" (top right).
+4. Click "Load unpacked" and select the GX-music-Daftpoe folder (or the extracted folder from the release).
+
+## Usage
+1. Click the extension icon in Chrome to open the popup.
+2. Select a track from the dropdown (e.g., "Berlinist - Evolve").
+3. Click "Play" to start the music. The music will continue playing even if you close the popup.
+4. The music will automatically pause when you visit sites like YouTube or Spotify and resume when you leave.
+
+## Todo
+- Add a volume slider.
+- Improve the popup design for a better user experience.
+- Explore adaptive sounds (e.g., more sounds from typing and clicking, as in the original Opera GX feature).
+
+## Contributing
+Contributions are welcome! If you’d like to contribute:
+
+1. Fork this repository.
+2. Create a new branch (git checkout -b feature/your-feature).
+3. Make your changes and commit them (git commit -m "Add your feature").
+4. Push to your branch (git push origin feature/your-feature).
+5. Open a pull request.
+
+Please ensure your contributions align with the Apache License 2.0.
+
+## Changelog
+### Version 0.0.1 (2025-05-08)
+
+- Initial release of GX-music-Daftpoe.
+- Migrated to Manifest V3.
+- Added offscreen document for persistent audio playback.
+- Implemented tab activity monitoring to pause/resume music.
+
+## Credits
+- Original project: GX Music by mbs0ft.
+- Modified by Daftpoe in 2025.
+
+## License
+This project is licensed under the Apache License, Version 2.0, as inherited from the original GX Music repository. See  for details.
+
+Copyright (c) 2025 Daftpoe (for modifications)
