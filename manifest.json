@@ -1,0 +1,21 @@
+{
+  "name": "GX music Daftpoe",
+  "version": "0.0.1",
+  "description": "GX Browser background music.",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "GX Music Daftpoe",
+    "default_popup": "popout.html"
+  },
+  "icons": {
+    "128": "logo.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "offscreen",
+    "webNavigation",
+    "tabs"
+  ]
+}
