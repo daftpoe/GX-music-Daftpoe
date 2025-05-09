@@ -55,6 +55,10 @@ Please ensure your contributions align with the Apache License 2.0.
 
 ## Changelog
 
+### Version 0.0.3 (2025-05-08)
+- Redesigned the popup UI with a modern layout, styled dropdown, and buttons.
+- Fixed wrap-around issue by ensuring elements fit within the popup’s width.
+
 ### Version 0.0.2 (2025-05-08)
 - Fixed an issue where a Cloudflare script was injected into `popout.html`, which could cause CSP violations.
 - Updated the `<title>` in `popout.html` to "GX-music-Daftpoe" for consistency.\
