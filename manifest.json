@@ -1,10 +1,10 @@
 {
-  "name": "GX music Daftpoe",
-  "version": "0.0.1",
+  "name": "GX-music-Daftpoe",
+  "version": "0.0.2",
   "description": "GX Browser background music.",
   "manifest_version": 3,
   "action": {
-    "default_title": "GX Music Daftpoe",
+    "default_title": "GX Music",
     "default_popup": "popout.html"
   },
   "icons": {
@@ -17,5 +17,17 @@
     "offscreen",
     "webNavigation",
     "tabs"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "t-one.mp3",
+        "t-two.mp3",
+        "t-three.mp3",
+        "t-four.mp3",
+        "t-five.mp3"
+      ],
+      "matches": ["<all_urls>"]
+    }
   ]
 }
