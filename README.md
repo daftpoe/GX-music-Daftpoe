@@ -1,5 +1,7 @@
 # ![GX-music-Daftpoe](logo_sm.png) GX-music-Daftpoe
 
+[![GitHub release](https://img.shields.io/github/v/release/daftpoe/GX-music-Daftpoe)](https://github.com/daftpoe/GX-music-Daftpoe/releases)
+
 A Chrome extension that plays background music, inspired by Opera GX's background music feature. This is a modified version of the original [GX Music](https://github.com/mbs0ft/GX-music) by [mbs0ft](https://github.com/mbs0ft).
 
 ## Demo
@@ -21,4 +23,4 @@ A Chrome extension that plays background music, inspired by Opera GX's backgroun
 ## Installation
 1. Clone or download this repository:
    ```bash
-   git clone https://github.com/your-username/GX-music-Daftpoe.git
+   git clone https://github.com/daftpoe/GX-music-Daftpoe.git
