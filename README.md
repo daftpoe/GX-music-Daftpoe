@@ -55,6 +55,13 @@ Please ensure your contributions align with the Apache License 2.0.
 
 ## Changelog
 
+### Version 0.0.4 (2025-05-09)
+- **Updated UI Color Scheme:** Adjusted the color palette to match the new logo design:
+  - Set the background color to `#222` for a seamless match with the logo's dark background.
+  - Updated button colors: "Play" button now uses a vibrant green (`#00FF00`), and "Pause" button uses a desaturated green (`#4CAF50`), with corresponding hover states.
+  - Select element now features a dark background (`#444`) with white text, and a green border (`#00FF00`) on hover/focus.
+  - Header text color updated to light gray (`#ddd`) for better readability and consistency with the "Daftpoe" branding.
+
 ### Version 0.0.3 (2025-05-08)
 - Redesigned the popup UI with a modern layout, styled dropdown, and buttons.
 - Fixed wrap-around issue by ensuring elements fit within the popup’s width.
