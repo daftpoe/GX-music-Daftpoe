@@ -1,93 +1,82 @@
-console.log("GX Music Service Worker Started");
+console.log("GX-music-Daftpoe Safari Background Script Loaded");
 
-// Function to create the offscreen document if it doesn't exist
-async function createOffscreenDocument() {
-  if (await chrome.offscreen.hasDocument?.()) return;
-  await chrome.offscreen.createDocument({
-    url: 'offscreen.html',
-    reasons: ['AUDIO_PLAYBACK'],
-    justification: 'Playing background music for the GX Music extension'
-  });
+let audioElement;
+let currentTrack = '';
+const playlist = [
+    "t-one.mp3",
+    "t-two.mp3",
+    "t-three.mp3",
+    "t-four.mp3",
+    "t-five.mp3"
+];
+let currentTrackIndex = 0;
+
+function ensureAudioElement() {
+    if (!audioElement) {
+        audioElement = new Audio();
+        audioElement.addEventListener('ended', playNextTrack); // Play next track when current one ends
+        // You could potentially append it to the background page's body if needed for some reason,
+        // but it's often not necessary for playback itself.
+        // document.body.appendChild(audioElement);
+        console.log("Audio element created");
+    }
 }
 
-// Ensure the offscreen document is created on startup
-createOffscreenDocument();
+function playTrack(trackName) {
+    ensureAudioElement();
+    const trackUrl = browser.runtime.getURL(trackName);
+    console.log(`Attempting to play: ${trackName} from URL: ${trackUrl}`);
+    audioElement.src = trackUrl;
+    currentTrack = trackName;
+    audioElement.play()
+        .then(() => {
+            console.log(`Successfully playing: ${trackName}`);
+            browser.action.setBadgeText({ text: "▶" });
+        })
+        .catch(error => {
+            console.error(`Error playing ${trackName}:`, error);
+            browser.action.setBadgeText({ text: "ERR" });
+        });
+}
 
-// State to track playback
-let shouldAutoPlay = false;
-let currentTrack = null;
-let isOtherAudioLikelyPlaying = false;
+function playNextTrack() {
+    currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+    playTrack(playlist[currentTrackIndex]);
+}
 
-// List of domains likely to play audio
-const audioDomains = [
-  'youtube.com',
-  'spotify.com',
-  'soundcloud.com',
-  'netflix.com',
-  'vimeo.com'
-];
-
-// Monitor tab navigation to approximate audio playback
-chrome.webNavigation.onCommitted.addListener((details) => {
-  if (details.frameId !== 0) return; // Ignore subframes
-
-  const url = new URL(details.url);
-  const isAudioDomain = audioDomains.some(domain => url.hostname.includes(domain));
-
-  if (isAudioDomain) {
-    // Likely audio playback, pause the music
-    isOtherAudioLikelyPlaying = true;
-    if (shouldAutoPlay) {
-      chrome.runtime.sendMessage({ action: "pauseTrack" });
+function stopTrack() {
+    if (audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        currentTrack = '';
+        console.log("Track stopped");
+        browser.action.setBadgeText({ text: "" });
     }
-  } else {
-    // Not an audio domain, resume if we should be playing
-    isOtherAudioLikelyPlaying = false;
-    if (shouldAutoPlay && currentTrack) {
-      chrome.runtime.sendMessage({ action: "playTrack", track: currentTrack });
+}
+
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("Message received in background:", message);
+    if (message.action === "playMusic") {
+        // If a specific track is requested, play it. Otherwise, play the current/next.
+        const trackToPlay = message.track || playlist[currentTrackIndex];
+        playTrack(trackToPlay);
+        sendResponse({ status: "playing", track: currentTrack });
+    } else if (message.action === "stopMusic") {
+        stopTrack();
+        sendResponse({ status: "stopped" });
     }
-  }
+    return true; // Indicates you wish to send a response asynchronously
 });
 
-// Monitor tab closure to resume playback if no audio domains are open
-chrome.tabs.onRemoved.addListener((tabId) => {
-  chrome.tabs.query({}, (tabs) => {
-    const hasAudioDomain = tabs.some(tab => {
-      if (!tab.url) return false;
-      const url = new URL(tab.url);
-      return audioDomains.some(domain => url.hostname.includes(domain));
-    });
-
-    if (!hasAudioDomain && shouldAutoPlay && currentTrack) {
-      isOtherAudioLikelyPlaying = false;
-      chrome.runtime.sendMessage({ action: "playTrack", track: currentTrack });
+// Example: Clicking the browser action icon toggles play/stop for the first track or current
+browser.action.onClicked.addListener((tab) => {
+    if (audioElement && !audioElement.paused && currentTrack) {
+        stopTrack();
+    } else {
+        playTrack(playlist[currentTrackIndex]);
     }
-  });
 });
 
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  if (msg.name === "playTrack") {
-    console.log(`Playing track: ${msg.track}`);
-    currentTrack = msg.track;
-    shouldAutoPlay = true;
-    if (!isOtherAudioLikelyPlaying) {
-      chrome.runtime.sendMessage({
-        action: "playTrack",
-        track: msg.track
-      });
-    }
-  }
-
-  if (msg.name === "pauseTrack") {
-    console.log("Track paused");
-    shouldAutoPlay = false;
-    chrome.runtime.sendMessage({ action: "pauseTrack" });
-  }
-
-  if (msg.name === "getAudioState") {
-    chrome.runtime.sendMessage({ action: "getAudioState" }, (state) => {
-      sendResponse(state);
-    });
-    return true;
-  }
-});
+// Initialize badge
+browser.action.setBadgeText({ text: "" });
+browser.action.setBadgeBackgroundColor({ color: '#007AFF' }); // Blue, or your preferred color

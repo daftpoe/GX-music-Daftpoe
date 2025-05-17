@@ -25,9 +25,18 @@
         "t-two.mp3",
         "t-three.mp3",
         "t-four.mp3",
-        "t-five.mp3"
+        "t-five.mp3",
+        "popout.html",
+        "logo.png"
       ],
       "matches": ["<all_urls>"]
     }
-  ]
+  ],
+  "action": { 
+      "default_popup": "popout.html",
+      "default_icon": {
+        "16": "logo_sm.png",
+        "48": "logo.png"
+      }
+    }
 }
