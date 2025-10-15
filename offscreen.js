@@ -7,6 +7,15 @@
 const audio = document.getElementById('audioElement');
 audio.volume = 0.3;
 
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const analyser = audioContext.createAnalyser();
+const source = audioContext.createMediaElementSource(audio);
+source.connect(analyser);
+analyser.connect(audioContext.destination);
+analyser.fftSize = 256;
+const bufferLength = analyser.frequencyBinCount;
+const dataArray = new Uint8Array(bufferLength);
+
 // The playlist of available tracks
 const playlist = {
   'one': 't-one.mp3',
@@ -52,6 +61,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       break;
     case 'set-volume':
       audio.volume = message.volume;
+      break;
+    case 'get-visualization-data':
+      analyser.getByteFrequencyData(dataArray);
+      sendResponse({ data: Array.from(dataArray) });
       break;
   }
   return true; // Keep the message channel open for async response
