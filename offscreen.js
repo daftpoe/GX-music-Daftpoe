@@ -22,7 +22,9 @@ function playTrack(track) {
   currentTrack = track;
   audio.src = playlist[track];
   audio.play().catch(err => {
-    console.error("Audio play failed:", err);
+    if (err.name !== 'AbortError') {
+      console.error("Audio play failed:", err);
+    }
   });
 }
 
