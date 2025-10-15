@@ -19,8 +19,7 @@
   },
   "permissions": [
     "offscreen",
-    "tabs",
-    "webNavigation"
+    "tabs"
   ],
   "web_accessible_resources": [
     {
