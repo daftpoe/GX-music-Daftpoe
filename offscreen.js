@@ -5,6 +5,7 @@
 // It is run in an offscreen document to allow for background audio.
 
 const audio = document.getElementById('audioElement');
+audio.volume = 0.3;
 
 // The playlist of available tracks
 const playlist = {
@@ -18,9 +19,12 @@ const playlist = {
 let currentTrack = 'one'; // Default to the first track
 
 // Function to play a track
-function playTrack(track) {
+function playTrack(track, volume) {
   currentTrack = track;
   audio.src = playlist[track];
+  if (volume) {
+    audio.volume = volume;
+  }
   audio.play().catch(err => {
     if (err.name !== 'AbortError') {
       console.error("Audio play failed:", err);
@@ -32,8 +36,8 @@ function playTrack(track) {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   switch (message.action) {
     case 'play':
-      playTrack(message.track || currentTrack);
-      sendResponse({ status: 'playing', track: currentTrack });
+      playTrack(message.track || currentTrack, message.volume);
+      sendResponse({ status: 'playing', track: currentTrack, volume: audio.volume });
       break;
     case 'pause':
       audio.pause();
@@ -42,21 +46,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     case 'get-state':
       sendResponse({ 
         status: audio.paused ? 'paused' : 'playing', 
-        track: currentTrack 
+        track: currentTrack, 
+        volume: audio.volume 
       });
+      break;
+    case 'set-volume':
+      audio.volume = message.volume;
       break;
   }
   return true; // Keep the message channel open for async response
 });
 
-// When a track ends, play the next one in the playlist
+// When a track ends, play it again
 audio.addEventListener('ended', () => {
-  const trackIds = Object.keys(playlist);
-  const currentIndex = trackIds.indexOf(currentTrack);
-  const nextIndex = (currentIndex + 1) % trackIds.length;
-  currentTrack = trackIds[nextIndex];
-  playTrack(currentTrack);
-
-  // Notify other parts of the extension that the track has changed
-  chrome.runtime.sendMessage({ action: 'track-changed', track: currentTrack });
+  playTrack(currentTrack, audio.volume);
 });

@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const playButton = document.querySelector('.play');
   const pauseButton = document.querySelector('.pause');
 
+  const volumeSlider = document.getElementById('volumeSlider');
+
   // Function to update the UI based on the current playback state
   function updateUI(state) {
     if (state.status === 'playing') {
@@ -16,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       pauseButton.disabled = true;
     }
     trackSelect.value = state.track;
+    volumeSlider.value = state.volume;
   }
 
   // Get the current state from the background script and update the UI
@@ -33,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Event listeners for the play and pause buttons
   playButton.addEventListener('click', () => {
     const selectedTrack = trackSelect.value;
-    chrome.runtime.sendMessage({ action: 'play', track: selectedTrack }, (response) => {
+    const volume = volumeSlider.value;
+    chrome.runtime.sendMessage({ action: 'play', track: selectedTrack, volume: volume }, (response) => {
       if (chrome.runtime.lastError) {
         console.warn(chrome.runtime.lastError.message);
         return;
@@ -56,10 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Listen for track changes from the background script
-  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === 'track-changed') {
-      trackSelect.value = message.track;
-    }
+  volumeSlider.addEventListener('input', () => {
+    const volume = volumeSlider.value;
+    chrome.runtime.sendMessage({ action: 'set-volume', volume: volume });
   });
+
+
 });

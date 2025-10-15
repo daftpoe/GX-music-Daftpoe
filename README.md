@@ -2,6 +2,11 @@
 
 This Chrome extension plays background music in the GX Browser. It has been optimized for robustness, maintainability, and efficiency.
 
+## Features
+
+- **Volume Control:** Adjust the music volume using the slider in the popup.
+- **Track Repetition:** The current track will repeat until a new one is selected.
+
 ## Optimizations
 
 The following optimizations have been made:
