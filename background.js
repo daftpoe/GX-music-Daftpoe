@@ -36,15 +36,19 @@ async function setupOffscreenDocument() {
 }
 
 // Listen for messages from other parts of the extension (e.g., popup)
-chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-  // Ensure the offscreen document is set up before processing messages
-  await setupOffscreenDocument();
-
-  // Forward the message to the offscreen document
-  const response = await chrome.runtime.sendMessage(message);
-  
-  // Send the response back to the original sender
-  sendResponse(response);
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  (async () => {
+    await setupOffscreenDocument();
+    chrome.runtime.sendMessage(message, (response) => {
+      if (chrome.runtime.lastError) {
+        // This can happen if the popup is closed before a response is sent.
+        console.warn(chrome.runtime.lastError.message);
+        return;
+      }
+      sendResponse(response);
+    });
+  })();
+  return true;
 });
 
 // Optional: Add a listener for when the extension is first installed or updated

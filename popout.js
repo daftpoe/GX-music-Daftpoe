@@ -20,6 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Get the current state from the background script and update the UI
   chrome.runtime.sendMessage({ action: 'get-state' }, (response) => {
+    if (chrome.runtime.lastError) {
+      // This can happen if the offscreen document is not yet ready.
+      console.warn(chrome.runtime.lastError.message);
+      return;
+    }
     if (response) {
       updateUI(response);
     }
@@ -29,6 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
   playButton.addEventListener('click', () => {
     const selectedTrack = trackSelect.value;
     chrome.runtime.sendMessage({ action: 'play', track: selectedTrack }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.warn(chrome.runtime.lastError.message);
+        return;
+      }
       if (response) {
         updateUI(response);
       }
@@ -37,6 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   pauseButton.addEventListener('click', () => {
     chrome.runtime.sendMessage({ action: 'pause' }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.warn(chrome.runtime.lastError.message);
+        return;
+      }
       if (response) {
         updateUI(response);
       }
