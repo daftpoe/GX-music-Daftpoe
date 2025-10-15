@@ -5,7 +5,11 @@
   "manifest_version": 3,
   "action": {
     "default_title": "GX Music",
-    "default_popup": "popout.html"
+    "default_popup": "popout.html",
+    "default_icon": {
+      "16": "logo_sm.png",
+      "48": "logo.png"
+    }
   },
   "icons": {
     "128": "logo.png"
@@ -14,9 +18,7 @@
     "service_worker": "background.js"
   },
   "permissions": [
-    "offscreen",
-    "webNavigation",
-    "tabs"
+    "offscreen"
   ],
   "web_accessible_resources": [
     {
@@ -25,18 +27,9 @@
         "t-two.mp3",
         "t-three.mp3",
         "t-four.mp3",
-        "t-five.mp3",
-        "popout.html",
-        "logo.png"
+        "t-five.mp3"
       ],
       "matches": ["<all_urls>"]
     }
-  ],
-  "action": { 
-      "default_popup": "popout.html",
-      "default_icon": {
-        "16": "logo_sm.png",
-        "48": "logo.png"
-      }
-    }
+  ]
 }
