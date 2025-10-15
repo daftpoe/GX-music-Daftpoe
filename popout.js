@@ -65,5 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.runtime.sendMessage({ action: 'set-volume', volume: volume });
   });
 
+  trackSelect.addEventListener('change', () => {
+    const selectedTrack = trackSelect.value;
+    const volume = volumeSlider.value;
+    chrome.runtime.sendMessage({ action: 'play', track: selectedTrack, volume: volume }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.warn(chrome.runtime.lastError.message);
+        return;
+      }
+      if (response) {
+        updateUI(response);
+      }
+    });
+  });
+
 
 });
