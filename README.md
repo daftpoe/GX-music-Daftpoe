@@ -6,6 +6,7 @@ This Chrome extension plays background music in the GX Browser. It has been opti
 
 - **Volume Control:** Adjust the music volume using the slider in the popup.
 - **Track Repetition:** The current track will repeat until a new one is selected.
+- **Automatic Pausing:** The music will automatically pause when any other tab starts playing audio and resume when it stops.
 
 ## Installation
 1. Clone or download this repository:
@@ -22,7 +23,7 @@ Alternatively, download the latest release from the Releases page as a .zip file
 1. Click the extension icon in Chrome to open the popup.
 2. Select a track from the dropdown (e.g., "Berlinist - Evolve").
 3. Click "Play" to start the music. The music will continue playing even if you close the popup.
-4. The music will automatically pause when you visit sites like YouTube or Spotify and resume when you leave.
+4. The music will automatically pause when any other tab starts playing audio and resume when it stops.
 
 ## Contributing
 Contributions are welcome! If you’d like to contribute:
