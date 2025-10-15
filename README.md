@@ -7,6 +7,7 @@ This Chrome extension plays background music in the GX Browser. It has been opti
 - **Volume Control:** Adjust the music volume using the slider in the popup.
 - **Track Repetition:** The current track will repeat until a new one is selected.
 - **Automatic Pausing:** The music will automatically pause when any other tab starts playing audio and resume when it stops.
+- **Spectrum Analyzer:** A silver-themed spectrum analyzer provides a visual representation of the music.
 
 ## Installation
 1. Clone or download this repository:
