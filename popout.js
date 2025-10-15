@@ -29,7 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let i = 0; i < bufferLength; i++) {
         barHeight = dataArray[i];
 
-        canvasCtx.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)';
+        const gradient = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
+        gradient.addColorStop(0, 'silver');
+        gradient.addColorStop(1, 'grey');
+        canvasCtx.fillStyle = gradient;
         canvasCtx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
 
         x += barWidth + 1;
