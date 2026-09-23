@@ -1,6 +1,6 @@
 # GX-music-Daftpoe
 
-This Chrome extension plays background music in the GX Browser. It has been optimized for robustness, maintainability, and efficiency.
+This Chrome extension plays background music in the Browser. This largely mimics a feature from other browsers. It has been optimized for robustness, maintainability, and efficiency.
 
 ## Features
 
